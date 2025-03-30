@@ -1,82 +1,107 @@
 <script lang="ts">
-    import { fly } from 'svelte/transition';
-    import apiClient from '$lib/plugins/interceptor';
-    import type { Project, ProjectResponse } from '$lib/types/Project';
-    import { onMount } from 'svelte';
-    import HeaderComponent from '$lib/components/Header.svelte';
-    import FooterComponent from '$lib/components/Footer.svelte';
-    import Loader from '$lib/components/Loader.svelte';
+  import { fly } from "svelte/transition";
+  import apiClient from "$lib/plugins/interceptor";
+  import { goto } from "$app/navigation";
+  import type { Project, ProjectResponse } from "$lib/types/Project";
+  import { onMount } from "svelte";
+  import HeaderComponent from "$lib/components/Header.svelte";
+  import FooterComponent from "$lib/components/Footer.svelte";
+  import Loader from "$lib/components/Loader.svelte";
 
-    let text = "Welcome to Projects";
-    let displayedText = "";
-    let index = 0;
-    let projects: Project[] = [];
-    let loading = true;
-    let error: string | null = null;
+  let text = "Welcome to Projects";
+  let displayedText = "";
+  let index = 0;
+  let projects: Project[] = [];
+  let loading = true;
+  let error: string | null = null;
 
-    // Typewriter effect logic
-    const typeWriter = () => {
-        if (index < text.length) {
-            displayedText += text[index];
-            index++;
-            setTimeout(typeWriter, 100); // Adjust speed here
-        }
-    };
+  // Typewriter effect logic
+  const typeWriter = () => {
+    if (index < text.length) {
+      displayedText += text[index];
+      index++;
+      setTimeout(typeWriter, 100); // Adjust speed here
+    }
+  };
 
-    // Start the typewriter effect when the component is mounted
-    typeWriter();
+  // Start the typewriter effect when the component is mounted
+  typeWriter();
 
-    onMount(async () => {
-        try {
-            const response = await apiClient.get<ProjectResponse>('/projects');
-            console.log(response.data.results);
-            projects = response.data.results;
-            if (projects.length === 0) {
-                error = 'No projects available';
-            }
-        } catch (err) {
-            error = 'Failed to load projects';
-        } finally {
-            loading = false;
-        }
-    });
+  const goToDetails = (projectId: number) => {
+    // Navigate to the project details page
+    goto(`/projects/${projectId}`);
+  };
+
+  onMount(async () => {
+    try {
+      const response = await apiClient.get<ProjectResponse>("/projects");
+      console.log(response.data.results);
+      projects = response.data.results;
+      if (projects.length === 0) {
+        error = "No projects available";
+      }
+    } catch (err) {
+      error = "Failed to load projects";
+    } finally {
+      loading = false;
+    }
+  });
 </script>
 
 <HeaderComponent title="Projects" />
 
-<section class="relative bg-cover bg-center h-[500px]" style="background-image: url('https://plus.unsplash.com/premium_photo-1710409625244-e9ed7e98f67b?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');">
-    <div class="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black bg-opacity-50 flex items-center justify-center">
-        <div class="text-center text-white">
-            <h1 class="text-4xl md:text-6xl font-bold mb-4" in:fly="{{ x: -200, duration: 500 }}">
-                {displayedText}
-            </h1>
-            <p class="text-lg md:text-xl mb-6" in:fly="{{ x: -200, duration: 500, delay: 200 }}">
-                Explore our amazing projects
-            </p>
-            <button class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg" in:fly="{{ x: -200, duration: 500, delay: 400 }}">
-                Get Started
-            </button>
-        </div>
+<section
+  class="relative bg-cover bg-center h-[500px]"
+  style="background-image: url('https://plus.unsplash.com/premium_photo-1710409625244-e9ed7e98f67b?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');"
+>
+  <div
+    class="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black bg-opacity-50 flex items-center justify-center"
+  >
+    <div class="text-center text-white">
+      <h1
+        class="text-4xl md:text-6xl font-bold mb-4"
+        in:fly={{ x: -200, duration: 500 }}
+      >
+        {displayedText}
+      </h1>
+      <p
+        class="text-lg md:text-xl mb-6"
+        in:fly={{ x: -200, duration: 500, delay: 200 }}
+      >
+        Explore our amazing projects
+      </p>
+      <button
+        class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg"
+        in:fly={{ x: -200, duration: 500, delay: 400 }}
+      >
+        Get Started
+      </button>
     </div>
+  </div>
 </section>
 
 {#if loading}
-    <Loader />
+  <Loader />
 {:else if error}
-    <p class="text-center text-red-500">{error}</p>
+  <p class="text-center text-red-500">{error}</p>
 {:else}
-{#each projects as project}
+  {#each projects as project}
     <div class="bg-white container mx-auto my-3 p-4 rounded-lg shadow-md">
-        <h3 class="text-xl font-semibold">{project.title}</h3>
-        <div class="content">
-            {@html project.description}
-        </div>
+      <h3 class="text-xl font-semibold">{project.title}</h3>
+      <div class="content">
+        {@html project.description}
+      </div>
+      <button
+        class="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+        on:click={() => goToDetails(project.id)}
+      >
+        Go to Details Page
+      </button>
     </div>
-{/each}
+  {/each}
 {/if}
 
 <FooterComponent />
 
 <style>
-   
 </style>

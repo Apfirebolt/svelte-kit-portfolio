@@ -1,6 +1,7 @@
 <script lang="ts">
     import { fly } from 'svelte/transition';
     import apiClient from '$lib/plugins/interceptor';
+    import { goto } from '$app/navigation';
     import type { Gallery, GalleryResponse } from '$lib/types/Gallery';
     import { onMount } from 'svelte';
     import HeaderComponent from '$lib/components/Header.svelte';
@@ -25,6 +26,11 @@
 
     // Start the typewriter effect when the component is mounted
     typeWriter();
+
+    const goToDetails = (galleryId: number) => {
+        // Navigate to the gallery details page
+        goto(`/gallery/${galleryId}`);
+    };
 
     onMount(async () => {
         try {
@@ -70,6 +76,14 @@
         <h3 class="text-xl font-semibold">{gallery.title}</h3>
         <div class="content">
             {@html gallery.description}
+        </div>
+        <div>
+            <button 
+                class="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                on:click={() => goToDetails(gallery.id)}
+            >
+                Go to Details Page
+            </button>
         </div>
     </div>
 {/each}

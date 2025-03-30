@@ -1,6 +1,7 @@
 <script lang="ts">
     import { fly } from 'svelte/transition';
     import apiClient from '$lib/plugins/interceptor';
+    import { goto } from '$app/navigation';
     import type { Blog, BlogResponse } from '$lib/types/Blog';
     import { onMount } from 'svelte';
     import HeaderComponent from '$lib/components/Header.svelte';
@@ -25,6 +26,11 @@
 
     // Start the typewriter effect when the component is mounted
     typeWriter();
+
+    const goToDetails = (postId: string) => {
+        // Navigate to the blog details page
+        goto(`/blog/${postId}`);
+    };
 
     onMount(async () => {
         try {
@@ -70,6 +76,9 @@
         <h3 class="text-xl font-semibold">{post.title}</h3>
         <div class="content">
             {@html post.content}
+        </div>
+        <div class="flex justify-between mt-4">
+            <button on:click={() => goToDetails(post.id)} class="bg-blue-500 text-white px-4 py-2 rounded">Read More</button>
         </div>
     </div>
 {/each}
