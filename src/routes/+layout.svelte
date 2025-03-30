@@ -6,4 +6,6 @@
 	let { children } = $props();
 </script>
 
-{@render children()}
+<div class="bg-secondary">
+	{@render children()}
+</div>
