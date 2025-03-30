@@ -5,6 +5,7 @@
     import { onMount } from 'svelte';
     import HeaderComponent from '$lib/components/Header.svelte';
     import FooterComponent from '$lib/components/Footer.svelte';
+    import Loader from '$lib/components/Loader.svelte';
 
     let text = "Welcome to Blog";
     let displayedText = "";
@@ -60,7 +61,7 @@
 </section>
 
 {#if loading}
-    <p class="text-center text-white">Loading...</p>
+    <Loader />
 {:else if error}
     <p class="text-center text-red-500">{error}</p>
 {:else}

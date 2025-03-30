@@ -13,7 +13,9 @@
   <div class="container mx-auto text-center space-y-4">
     <nav class="flex justify-center space-x-6">
       {#each menuItems as item}
-        <a href={item.url} class="text-sm hover:underline">
+        <a 
+          href={item.url} 
+          class="text-sm hover:text-lg mx-6 hover:shadow-lg hover:no-underline transition-all duration-200">
           {item.name}
         </a>
       {/each}

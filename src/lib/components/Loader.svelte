@@ -1,37 +1,99 @@
 <script lang="ts">
   
 </script>
-  
-<div class="fixed inset-0 flex justify-center items-center bg-gradient-to-r bg-opacity-75 z-50 animated-bg">
-  <div class="loader">
+
+<div class="loader-container">
+  <div class="cube">
+  <div class="face front"></div>
+  <div class="face back"></div>
+  <div class="face left"></div>
+  <div class="face right"></div>
+  <div class="face top"></div>
+  <div class="face bottom"></div>
   </div>
+  <div class="loading-text">Loading...</div>
 </div>
-  
 <style>
-  @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  .loader-container {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #56021F, #015551, #B4EBE6, #a18cd1);
+  background-size: 400% 400%;
+  animation: gradient-shift 6s infinite;
+  z-index: 50;
   }
 
-  @keyframes gradient {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  .cube {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  transform-style: preserve-3d;
+  animation: rotate 5s infinite linear;
   }
 
-  .loader {
-    width: 64px;
-    height: 64px;
-    border-radius: 50%;
-    border: 4px solid transparent;
-    border-top: 4px solid white;
-    border-right: 4px solid var(--tw-ring-color, var(--tw-ring-offset-color, var(--tw-gradient-stops, var(--tw-bg-opacity, rgba(251, 146, 60, var(--tw-bg-opacity, 1))))));
-    animation: spin 1s linear infinite;
+  .face {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  background: rgba(255, 255, 255, 0.2);
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(5px);
   }
 
-  .animated-bg {
-    background: linear-gradient(270deg, #ff7eb3, #ff758c, #ff6a5e, #ff7eb3);
-    background-size: 400% 400%;
-    animation: gradient 6s ease infinite;
+  .front {
+  transform: translateZ(50px);
+  }
+
+  .back {
+  transform: rotateY(180deg) translateZ(50px);
+  }
+
+  .left {
+  transform: rotateY(-90deg) translateZ(50px);
+  }
+
+  .right {
+  transform: rotateY(90deg) translateZ(50px);
+  }
+
+  .top {
+  transform: rotateX(90deg) translateZ(50px);
+  }
+
+  .bottom {
+  transform: rotateX(-90deg) translateZ(50px);
+  }
+
+  .loading-text {
+  margin-top: 20px;
+  font-size: 1.5rem;
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+  font-weight: bold;
+  }
+
+  @keyframes rotate {
+  0% {
+    transform: rotateX(0deg) rotateY(0deg);
+  }
+  100% {
+    transform: rotateX(360deg) rotateY(360deg);
+  }
+  }
+
+  @keyframes gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
   }
 </style>

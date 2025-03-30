@@ -29,13 +29,13 @@
       <ul class="flex space-x-6">
         {#each menuItems as item}
           <li class="relative group">
-            <a
-              href={item.url}
-              data-sveltekit-prefetch
-              class="text-white px-3 py-2 rounded transition-all duration-300 ease-in-out group-hover:bg-bermuda group-hover:text-black group-hover:scale-105"
-            >
-              {item.name}
-            </a>
+			<a
+			  href={item.url}
+			  data-sveltekit-prefetch
+			  class="text-white px-4 py-3 rounded transition-all duration-300 ease-in-out group-hover:rounded-lg group-hover:border group-hover:shadow-2xl"
+			>
+			  {item.name}
+			</a>
           </li>
         {/each}
       </ul>
@@ -44,7 +44,7 @@
 
   <!-- Mobile Menu -->
   <div
-    class="fixed top-0 right-0 bg-midnight text-white z-40 h-full w-1/2 transform transition-transform duration-300 ease-in-out"
+    class="fixed top-0 right-0 bg-secondary text-accent z-40 h-full w-1/2 transform transition-transform duration-300 ease-in-out"
     class:translate-x-0={isMenuOpen}
     class:translate-x-full={!isMenuOpen}
   >
@@ -60,7 +60,7 @@
     <ul class="space-y-4 px-6">
       {#each menuItems as item}
         <li
-          class="bg-bermuda text-white px-2 py-3 text-center shadow-xl rounded hover:bg-amber-500 transition-colors duration-300"
+          class="bg-bermuda text-white px-2 py-3 text-center shadow-xl rounded hover:bg-tertiary hover:text-secondary transition-colors duration-300"
         >
           <a href={item.url} data-sveltekit-prefetch on:click={toggleMenu}>
             {item.name}

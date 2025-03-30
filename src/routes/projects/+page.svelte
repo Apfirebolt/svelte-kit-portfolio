@@ -1,11 +1,18 @@
-<script>
+<script lang="ts">
     import { fly } from 'svelte/transition';
+    import apiClient from '$lib/plugins/interceptor';
+    import type { Project, ProjectResponse } from '$lib/types/Project';
+    import { onMount } from 'svelte';
     import HeaderComponent from '$lib/components/Header.svelte';
     import FooterComponent from '$lib/components/Footer.svelte';
+    import Loader from '$lib/components/Loader.svelte';
 
-    let text = "Welcome to Svelte Project";
+    let text = "Welcome to Projects";
     let displayedText = "";
     let index = 0;
+    let projects: Project[] = [];
+    let loading = true;
+    let error: string | null = null;
 
     // Typewriter effect logic
     const typeWriter = () => {
@@ -18,9 +25,24 @@
 
     // Start the typewriter effect when the component is mounted
     typeWriter();
+
+    onMount(async () => {
+        try {
+            const response = await apiClient.get<ProjectResponse>('/projects');
+            console.log(response.data.results);
+            projects = response.data.results;
+            if (projects.length === 0) {
+                error = 'No projects available';
+            }
+        } catch (err) {
+            error = 'Failed to load projects';
+        } finally {
+            loading = false;
+        }
+    });
 </script>
 
-<HeaderComponent />
+<HeaderComponent title="Projects" />
 
 <section class="relative bg-cover bg-center h-[500px]" style="background-image: url('https://plus.unsplash.com/premium_photo-1710409625244-e9ed7e98f67b?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');">
     <div class="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black bg-opacity-50 flex items-center justify-center">
@@ -29,7 +51,7 @@
                 {displayedText}
             </h1>
             <p class="text-lg md:text-xl mb-6" in:fly="{{ x: -200, duration: 500, delay: 200 }}">
-                Discover your favorite movies and more
+                Explore our amazing projects
             </p>
             <button class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg" in:fly="{{ x: -200, duration: 500, delay: 400 }}">
                 Get Started
@@ -38,4 +60,23 @@
     </div>
 </section>
 
+{#if loading}
+    <Loader />
+{:else if error}
+    <p class="text-center text-red-500">{error}</p>
+{:else}
+{#each projects as project}
+    <div class="bg-white container mx-auto my-3 p-4 rounded-lg shadow-md">
+        <h3 class="text-xl font-semibold">{project.title}</h3>
+        <div class="content">
+            {@html project.description}
+        </div>
+    </div>
+{/each}
+{/if}
+
 <FooterComponent />
+
+<style>
+   
+</style>
