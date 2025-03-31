@@ -1,85 +1,44 @@
 <script lang="ts">
-    import { fly } from "svelte/transition";
-    import httpClient from "$lib/plugins/interceptor";
-    import { isLoading, gallery } from "$lib/store";
-    import type { Gallery } from "$lib/types/Gallery";
-    import HeaderComponent from "$lib/components/Header.svelte";
-    import Loader from "$lib/components/Loader.svelte";
-    import { page } from "$app/stores";
-    import { onMount } from "svelte";
+    import { onMount } from 'svelte';
+    import { fly } from 'svelte/transition';
+    import HeaderComponent from '$lib/components/Header.svelte';
+    import Loader from '$lib/components/Loader.svelte';
 
-    let galleryDetails: any = null;
-    let galleryId: string | null = null;
+    export let data; // Receive data from the load function in +page.server.ts
 
-    // Get the `id` from the route parameters
-    $: galleryId = $page.params.id;
+    $: gallery = data.gallery || []; // Assign data.gallery to the gallery variable.
 
-    const fetchGalleryDetails = async () => {
-        try {
-            isLoading.set(true);
-            const response = await httpClient.get(
-                `gallery-posts/${galleryId}`
-            );
-            if (response.status === 200 && response.data) {
-                galleryDetails = response.data;
-                isLoading.set(false);
-            } else {
-                console.error("Error fetching gallery details:", response.statusText);
-                isLoading.set(false);
-            }
-        } catch (error) {
-            console.error("Error fetching gallery details:", error);
-            isLoading.set(false);
-        }
-    };
+    let clientOnly = false; // Flag to indicate if the component is mounted in the client
 
+    // Set clientOnly to true when the component is mounted on the client
     onMount(() => {
-        if (galleryId) {
-            fetchGalleryDetails();
-        }
+        clientOnly = true;
     });
 </script>
 
 <svelte:head>
-    <title>Gallery Details</title>
-    <meta name="description" content="Gallery details page" />
+    <title>{gallery ? 'Gallery' : 'Loading...'}</title>
+    <meta
+        name="description"
+        content={gallery ? 'Browse through the gallery' : 'Loading gallery...'}
+    />
 </svelte:head>
 
-<HeaderComponent title="Gallery Details" />
-
-<section class="p-6">
-    {#if $isLoading}
-        <Loader />
-    {:else if galleryDetails}
-        <div class="max-w-4xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
-            <div class="flex flex-col md:flex-row">
-                <img
-                    src={galleryDetails.image}
-                    alt={galleryDetails.title}
-                    class="w-full md:w-1/3 object-cover"
-                />
-                <div class="p-6">
-                    <h1 class="text-2xl font-bold mb-4">{galleryDetails.title}</h1>
-                    <p class="text-gray-600 mb-2"><strong>Description:</strong> {galleryDetails.description}</p>
-                    <p class="text-gray-600 mb-2"><strong>Technologies:</strong> {galleryDetails.technologies}</p>
-                    <p class="text-gray-600 mb-2"><strong>Start Date:</strong> {galleryDetails.startDate}</p>
-                    <p class="text-gray-600 mb-2"><strong>End Date:</strong> {galleryDetails.endDate}</p>
-                    <p class="text-gray-600 mb-2"><strong>Repository:</strong> <a href={galleryDetails.repository} target="_blank" class="text-blue-500">{galleryDetails.repository}</a></p>
-                </div>
-
-                <div>
-                    <h2 class="text-xl font-bold mb-4">Gallery Images</h2>
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                        {#each galleryDetails.images as image}
-                            <div class="bg-gray-200 p-4 rounded-lg">
-                                <img src={image} alt="" class="w-full h-auto rounded-lg" />
-                            </div>
-                        {/each}
-                    </div>
-                </div>
-            </div>
+<HeaderComponent title="Gallery" />
+{#if !gallery}
+    <Loader />
+{:else}
+<section class="bg-gradient-to-b from-blue-500 via-purple-600 to-pink-500 py-4 px-2">
+    <div class="max-w-2xl text-center mx-auto text-white p-6 rounded-lg bg-opacity-50 bg-black">
+        <h1 class="mb-6 text-5xl font-extrabold tracking-wide md:text-7xl" in:fly={{ x: 300, duration: 500 }}>
+            {gallery.title}
+        </h1>
+        
+        <div class="content">
+            {#if clientOnly}
+                {gallery.description}
+            {/if}
         </div>
-    {:else}
-        <p class="text-center text-gray-600">Gallery details not found.</p>
-    {/if}
+    </div>
 </section>
+{/if}

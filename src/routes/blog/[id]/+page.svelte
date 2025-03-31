@@ -1,74 +1,65 @@
 <script lang="ts">
-    import { fly } from "svelte/transition";
-    import httpClient from "$lib/plugins/interceptor";
-    import { isLoading, blog } from "$lib/store";
-    import type { Blog } from "$lib/types/Blog";
-    import HeaderComponent from "$lib/components/Header.svelte";
-    import Loader from "$lib/components/Loader.svelte";
-    import { page } from "$app/stores";
-    import { onMount } from "svelte";
+    import { onMount } from 'svelte';
+    import { fly, fade } from 'svelte/transition';
+    import HeaderComponent from '$lib/components/Header.svelte';
+    import Loader from '$lib/components/Loader.svelte';
+    import type { Blog } from '$lib/types/Blog'; // Import as a type
 
-    let blogDetails: any = null;
-    let blogId: string | null = null;
+    export let data; // Receive data from the load function in +page.server.ts
 
-    // Get the `id` from the route parameters
-    $: blogId = $page.params.id;
+    $: blog = data.blog as Blog | null; // Assign data.game to the game variable.
 
-    const fetchBlogDetails = async () => {
-        try {
-            isLoading.set(true);
-            const response = await httpClient.get(
-                `blogs/${blogId}`
-            );
-            if (response.status === 200 && response.data) {
-                blogDetails = response.data;
-                isLoading.set(false);
-            } else {
-                console.error("Error fetching blog details:", response.statusText);
-                isLoading.set(false);
-            }
-        } catch (error) {
-            console.error("Error fetching blog details:", error);
-            isLoading.set(false);
+    let displayedTitle = '';
+    let clientOnly = false; // Flag to indicate if the component is mounted in the client
+    let blogTitleIndex = 0;
+    let showImage = false; // Flag to control image visibility
+
+    // Typewriter effect logic for game name
+    const typeWriterGameName = () => {
+        if (blog && blogTitleIndex < blog.title.length) {
+            displayedTitle += blog.title[blogTitleIndex];
+            blogTitleIndex++;
+            setTimeout(typeWriterGameName, 100); // Adjust speed here
         }
     };
 
+    // Start the typewriter effect when the game data is available
+    $: if (blog) {
+        displayedTitle = ''; // Reset displayed name
+        blogTitleIndex = 0; // Reset index
+        typeWriterGameName();
+    }
+
+    // Set clientOnly to true when the component is mounted on the client
     onMount(() => {
-        if (blogId) {
-            fetchBlogDetails();
-        }
+        clientOnly = true;
     });
 </script>
 
 <svelte:head>
-    <title>Blog Details</title>
-    <meta name="description" content="Blog details page" />
+    <title>{blog ? blog.title : 'Loading...'}</title>
+    <meta
+        name="description"
+        content={blog ? `${blog.meta_description}` : 'Loading post details...'}
+    />
 </svelte:head>
 
-<HeaderComponent title="Blog Details" />
+<HeaderComponent title="Game Details" />
 
-<section class="p-6">
-    {#if $isLoading}
-        <Loader />
-    {:else if blogDetails}
-        <div class="max-w-4xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
-            <div class="flex flex-col md:flex-row">
-                <img
-                    src={blogDetails.image}
-                    alt={blogDetails.title}
-                    class="w-full md:w-1/3 object-cover"
-                />
-                <div class="p-6">
-                    <h1 class="text-2xl font-bold mb-4">{blogDetails.title}</h1>
-                    <p class="text-gray-600 mb-2"><strong>Description:</strong> {blogDetails.description}</p>
-                    <p class="text-gray-600 mb-2"><strong>Technologies:</strong> {blogDetails.technologies}</p>
-                    <p class="text-gray-600 mb-2"><strong>Start Date:</strong> {blogDetails.startDate}</p>
-                    <p class="text-gray-600 mb-2"><strong>End Date:</strong> {blogDetails.endDate}</p>
-                    <p class="text-gray-600 mb-2"><strong>Repository:</strong> <a href={blogDetails.repository} target="_blank" class="text-blue-500">{blogDetails.repository}</a></p>
-                </div>
+{#if !blog}
+    <Loader />
+{:else}
+    <section class="bg-gradient-to-b from-blue-500 via-purple-600 to-pink-500 py-4 px-2">
+        <div class="max-w-2xl text-center mx-auto text-white p-6 rounded-lg bg-opacity-50 bg-black">
+            <h1 class="mb-6 text-5xl font-extrabold tracking-wide md:text-7xl" in:fly={{ x: 300, duration: 500 }}>
+                {displayedTitle}
+            </h1>
+            
+            <div class="content">
+                {#if clientOnly}
+                    {blog.content}
+                {/if}
             </div>
         </div>
-    {:else}
-        <p class="text-center text-gray-600">Blog details not found.</p>
-    {/if}
-</section>
+    </section>
+{/if}
