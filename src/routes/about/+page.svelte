@@ -31,9 +31,6 @@
             <p class="text-lg md:text-xl mb-6" in:fly="{{ x: -200, duration: 500, delay: 200 }}">
                 Discover your favorite movies and more
             </p>
-            <button class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg" in:fly="{{ x: -200, duration: 500, delay: 400 }}">
-                Get Started
-            </button>
         </div>
     </div>
 </section>

@@ -4,6 +4,8 @@
   import { goto } from "$app/navigation";
   import type { Project, ProjectResponse } from "$lib/types/Project";
   import { onMount } from "svelte";
+  import { projects } from "$lib/store";
+  import { get } from "svelte/store";
   import HeaderComponent from "$lib/components/Header.svelte";
   import FooterComponent from "$lib/components/Footer.svelte";
   import Loader from "$lib/components/Loader.svelte";
@@ -11,9 +13,9 @@
   let text = "Welcome to Projects";
   let displayedText = "";
   let index = 0;
-  let projects: Project[] = [];
   let loading = true;
   let error: string | null = null;
+  let projectList: Project[] = [];
 
   // Typewriter effect logic
   const typeWriter = () => {
@@ -34,10 +36,12 @@
 
   onMount(async () => {
     try {
-      const response = await apiClient.get<ProjectResponse>("/projects");
-      console.log(response.data.results);
-      projects = response.data.results;
-      if (projects.length === 0) {
+      if (get(projects).length === 0) {
+        const response = await apiClient.get<ProjectResponse>("/projects");
+        projects.set(response.data.results);
+      }
+      projectList = get(projects); // Get the current value of the store
+      if (projectList.length === 0) {
         error = "No projects available";
       }
     } catch (err) {
@@ -47,6 +51,13 @@
     }
   });
 </script>
+
+<svelte:head>
+    <title>Projects - SvelteKit Portfolio</title>
+    <meta name="description" content="Explore our collection of projects in a wide range of technologies." />
+    <meta name="keywords" content="gallery, portfolio, sveltekit, creative works, visuals" />
+    <meta name="author" content="Amit Prafulla" />
+</svelte:head>
 
 <HeaderComponent title="Projects" />
 
@@ -70,12 +81,6 @@
       >
         Explore our amazing projects
       </p>
-      <button
-        class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg"
-        in:fly={{ x: -200, duration: 500, delay: 400 }}
-      >
-        Get Started
-      </button>
     </div>
   </div>
 </section>
@@ -85,17 +90,17 @@
 {:else if error}
   <p class="text-center text-red-500">{error}</p>
 {:else}
-  {#each projects as project}
+  {#each projectList as project}
     <div class="bg-white container mx-auto my-3 p-4 rounded-lg shadow-md">
-      <h3 class="text-xl font-semibold">{project.title}</h3>
+      <h3 class="text-2xl font-semibold mb-4">{project.title}</h3>
       <div class="content">
         {@html project.description}
       </div>
       <button
-        class="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+        class="mt-4 px-4 py-2 bg-secondary text-white rounded hover:bg-blue-900"
         on:click={() => goToDetails(project.id)}
       >
-        Go to Details Page
+        View Details
       </button>
     </div>
   {/each}

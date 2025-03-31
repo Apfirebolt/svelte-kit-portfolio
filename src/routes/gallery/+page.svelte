@@ -2,7 +2,9 @@
     import { fly } from 'svelte/transition';
     import apiClient from '$lib/plugins/interceptor';
     import { goto } from '$app/navigation';
-    import type { Gallery, GalleryResponse } from '$lib/types/Gallery';
+    import { galleries } from "$lib/store";
+    import { get } from "svelte/store";
+    import type { GalleryResponse } from '$lib/types/Gallery';
     import { onMount } from 'svelte';
     import HeaderComponent from '$lib/components/Header.svelte';
     import FooterComponent from '$lib/components/Footer.svelte';
@@ -11,7 +13,6 @@
     let text = "Welcome to the Gallery";
     let displayedText = "";
     let index = 0;
-    let galleryItems: Gallery[] = [];
     let loading = true;
     let error: string | null = null;
 
@@ -34,11 +35,12 @@
 
     onMount(async () => {
         try {
-            const response = await apiClient.get<GalleryResponse>('/gallery-posts');
-            console.log(response.data.results);
-            galleryItems = response.data.results;
-            if (galleryItems.length === 0) {
-                error = 'No gallery items available';
+            if (get(galleries).length === 0) {
+                const response = await apiClient.get<GalleryResponse>('/gallery-posts');
+                galleries.set(response.data.results);
+                if (response.data.results.length === 0) {
+                    error = 'No gallery available';
+                }
             }
         } catch (err) {
             error = 'Failed to load gallery items';
@@ -47,6 +49,13 @@
         }
     });
 </script>
+
+<svelte:head>
+    <title>Gallery - SvelteKit Portfolio</title>
+    <meta name="description" content="Explore our stunning gallery showcasing amazing visuals and creative works." />
+    <meta name="keywords" content="gallery, portfolio, sveltekit, creative works, visuals" />
+    <meta name="author" content="Amit Prafulla" />
+</svelte:head>
 
 <HeaderComponent title="Gallery" />
 
@@ -59,9 +68,6 @@
             <p class="text-lg md:text-xl mb-6" in:fly="{{ x: -200, duration: 500, delay: 200 }}">
                 Explore our stunning gallery
             </p>
-            <button class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg" in:fly="{{ x: -200, duration: 500, delay: 400 }}">
-                View More
-            </button>
         </div>
     </div>
 </section>
@@ -71,18 +77,18 @@
 {:else if error}
     <p class="text-center text-red-500">{error}</p>
 {:else}
-{#each galleryItems as gallery}
+{#each $galleries as gallery}
     <div class="bg-white container mx-auto my-3 p-4 rounded-lg shadow-md">
-        <h3 class="text-xl font-semibold">{gallery.title}</h3>
+        <h3 class="text-2xl font-semibold mb-4">{gallery.title}</h3>
         <div class="content">
             {@html gallery.description}
         </div>
         <div>
             <button 
-                class="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                class="mt-4 px-4 py-2 bg-secondary text-white rounded hover:bg-blue-900"
                 on:click={() => goToDetails(gallery.id)}
             >
-                Go to Details Page
+                View Details
             </button>
         </div>
     </div>
@@ -90,7 +96,3 @@
 {/if}
 
 <FooterComponent />
-
-<style>
-    /* Add any additional styles for the gallery here */
-</style>

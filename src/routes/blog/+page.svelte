@@ -2,6 +2,8 @@
     import { fly } from 'svelte/transition';
     import apiClient from '$lib/plugins/interceptor';
     import { goto } from '$app/navigation';
+    import { blogs as posts } from '$lib/store';
+    import { get } from "svelte/store";
     import type { Blog, BlogResponse } from '$lib/types/Blog';
     import { onMount } from 'svelte';
     import HeaderComponent from '$lib/components/Header.svelte';
@@ -11,7 +13,6 @@
     let text = "Welcome to Blog";
     let displayedText = "";
     let index = 0;
-    let posts: Blog[] = [];
     let loading = true;
     let error: string | null = null;
 
@@ -27,18 +28,19 @@
     // Start the typewriter effect when the component is mounted
     typeWriter();
 
-    const goToDetails = (postId: string) => {
+    const goToDetails = (postId: number) => {
         // Navigate to the blog details page
         goto(`/blog/${postId}`);
     };
 
     onMount(async () => {
         try {
-            const response = await apiClient.get<BlogResponse>('/blogs');
-            console.log(response.data.results);
-            posts = response.data.results;
-            if (posts.length === 0) {
-                error = 'No posts available';
+            if (get(posts).length === 0) {
+                const response = await apiClient.get<BlogResponse>('/blogs');
+                posts.set(response.data.results);
+                if (response.data.results.length === 0) {
+                    error = 'No posts available';
+                }
             }
         } catch (err) {
             error = 'Failed to load posts';
@@ -47,6 +49,13 @@
         }
     });
 </script>
+
+<svelte:head>
+    <title>Blog - SvelteKit Portfolio</title>
+    <meta name="description" content="Explore our blog." />
+    <meta name="keywords" content="gallery, portfolio, sveltekit, creative works, visuals" />
+    <meta name="author" content="Amit Prafulla" />
+</svelte:head>
 
 <HeaderComponent title="Blog" />
 
@@ -59,9 +68,6 @@
             <p class="text-lg md:text-xl mb-6" in:fly="{{ x: -200, duration: 500, delay: 200 }}">
                 Discover your favorite movies and more
             </p>
-            <button class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg" in:fly="{{ x: -200, duration: 500, delay: 400 }}">
-                Get Started
-            </button>
         </div>
     </div>
 </section>
@@ -71,14 +77,14 @@
 {:else if error}
     <p class="text-center text-red-500">{error}</p>
 {:else}
-{#each posts as post}
+{#each $posts as post}
     <div class="bg-white container mx-auto my-3 p-4 rounded-lg shadow-md">
-        <h3 class="text-xl font-semibold">{post.title}</h3>
+        <h3 class="text-2xl font-semibold mb-4">{post.title}</h3>
         <div class="content">
             {@html post.content}
         </div>
         <div class="flex justify-between mt-4">
-            <button on:click={() => goToDetails(post.id)} class="bg-blue-500 text-white px-4 py-2 rounded">Read More</button>
+            <button on:click={() => goToDetails(post.id)} class="bg-secondary text-white px-4 py-2 rounded">Read More</button>
         </div>
     </div>
 {/each}
