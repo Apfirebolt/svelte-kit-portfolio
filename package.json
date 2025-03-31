@@ -38,6 +38,7 @@
 	},
 	"dependencies": {
 		"@iconify/svelte": "^4.2.0",
+		"aos": "^2.3.4",
 		"axios": "^1.8.4"
 	}
 }
