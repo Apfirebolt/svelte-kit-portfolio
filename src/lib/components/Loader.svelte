@@ -11,7 +11,11 @@
   <div class="face top"></div>
   <div class="face bottom"></div>
   </div>
-  <div class="loading-text">Loading...</div>
+  <div class="loading-dots">
+  <span>.</span>
+  <span>.</span>
+  <span>.</span>
+  </div>
 </div>
 <style>
   .loader-container {
@@ -68,12 +72,24 @@
   transform: rotateX(-90deg) translateZ(50px);
   }
 
-  .loading-text {
+  .loading-dots {
   margin-top: 20px;
-  font-size: 1.5rem;
+  display: flex;
+  gap: 5px;
+  font-size: 6rem;
   color: white;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
-  font-weight: bold;
+  }
+
+  .loading-dots span {
+  animation: blink 1.5s infinite;
+  }
+
+  .loading-dots span:nth-child(2) {
+  animation-delay: 0.2s;
+  }
+
+  .loading-dots span:nth-child(3) {
+  animation-delay: 0.4s;
   }
 
   @keyframes rotate {
@@ -94,6 +110,15 @@
   }
   100% {
     background-position: 0% 50%;
+  }
+  }
+
+  @keyframes blink {
+  0%, 80%, 100% {
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
   }
   }
 </style>

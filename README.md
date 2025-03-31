@@ -31,6 +31,7 @@ By leveraging SSR and client-side rendering effectively, the portfolio achieves 
 - Display a gallery of images with a responsive layout.
 - Highlight projects with detailed descriptions and links.
 - Fully responsive design for desktop and mobile devices.
+- Built-in Svelte store is used for state management, it only calls API for the first time. Then, it uses data from the store.
 
 ### Technologies Used
 - **SvelteKit**: A modern framework for building fast and scalable web applications.

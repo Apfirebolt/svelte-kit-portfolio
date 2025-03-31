@@ -20,7 +20,7 @@
   typeWriter();
 </script>
 
-<HeaderComponent />
+<HeaderComponent title="About Me" />
 
 <section
   class="relative bg-cover bg-center h-[500px]"

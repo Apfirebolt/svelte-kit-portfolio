@@ -21,7 +21,7 @@
       {/each}
     </nav>
     <p class="text-sm">
-      &copy; {year} Sveltekit Movies. All rights reserved.
+      &copy; {year} Amit Prafulla - My Portfolio. All rights reserved.
     </p>
   </div>
 </footer>
