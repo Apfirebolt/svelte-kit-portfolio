@@ -104,6 +104,47 @@
         {displayedTitle}
       </h1>
 
+      <div class="flex my-3">
+        <p class="w-1/2 text-left">
+          <span class="text-primary-dark font-semibold">Posted on:</span>
+          {new Date(project.date_posted).toLocaleDateString()}
+        </p>
+        <div class="w-1/2 flex-wrap text-right">
+          {#each project.technology.split(",") as tech}
+            <span class="bg-dark text-light px-3 py-1 rounded-full mr-2">
+              {tech.trim()}
+            </span>
+          {/each}
+        </div>
+      </div>
+
+      <div class="my-3 flex justify-left">
+        {#if project.project_link}
+          <a
+            href={project.project_link}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-primary hover:text-secondary text-sm font-semibold"
+          >
+            Project Link : {project.project_link}
+          </a>
+        {:else}
+          <span>No project link available</span>
+        {/if}
+      </div>
+
+      {#if project.tags.length > 0}
+        <ul class="flex flex-wrap gap-2">
+          {#each project.tags as tag, index}
+          <li
+            class="bg-dark text-center text-light px-4 py-1 rounded-full text-sm shadow mr-2"
+          >
+            {tag.name}
+          </li>
+          {/each}
+        </ul>
+      {/if}
+
       <div class="grid grid-cols-1 md:grid-cols-1 my-3">
         {#each project.images as image, index (image.id)}
           {#if index === currentSlide}

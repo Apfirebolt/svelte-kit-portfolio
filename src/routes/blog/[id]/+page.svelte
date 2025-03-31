@@ -94,7 +94,7 @@
     class="bg-gradient-to-b from-blue-500 via-purple-600 to-pink-500 py-4 px-2"
   >
     <div
-      class="max-w-2xl text-center mx-auto text-black p-6 rounded-lg bg-opacity-50 bg-white"
+      class="w-3/4 text-center mx-auto text-black p-6 rounded-lg bg-opacity-50 bg-white"
     >
       <h1
         class="mb-6 text-5xl font-extrabold tracking-wide md:text-7xl"
@@ -102,6 +102,24 @@
       >
         {displayedTitle}
       </h1>
+
+      <div class="flex justify-between items-center mb-4">
+        {#if blog.tags.length > 0}
+          <ul class="flex w-1/2 flex-wrap gap-2">
+            {#each blog.tags as tag, index}
+              <li
+                class="bg-dark text-center text-light px-4 py-1 rounded-full text-sm shadow mr-2"
+              >
+                {tag.name}
+              </li>
+            {/each}
+          </ul>
+        {/if}
+        <p class="w-1/2 text-right">
+          <span class="text-primary-dark font-semibold">Posted on:</span>
+          {new Date(blog.date_posted).toLocaleDateString()}
+        </p>
+      </div>
 
       <div class="grid grid-cols-1 md:grid-cols-1 my-3">
         {#each blog.images as image, index (image.id)}
