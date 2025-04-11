@@ -91,10 +91,10 @@
   <Loader />
 {:else}
   <section
-    class="bg-gradient-to-b from-blue-500 via-purple-600 to-pink-500 py-4 px-2"
+    class="bg-gradient-to-b from-tertiary via-secondary to-dark py-4 px-2"
   >
     <div
-      class="w-3/4 text-center mx-auto text-black p-6 rounded-lg bg-opacity-50 bg-white"
+      class="md:w-3/4 text-center mx-auto text-black p-6 rounded-lg bg-opacity-50 bg-white"
     >
       <h1
         class="mb-6 text-5xl font-extrabold tracking-wide md:text-7xl"
@@ -105,7 +105,7 @@
 
       <div class="flex justify-between items-center mb-4">
         {#if blog.tags.length > 0}
-          <ul class="flex w-1/2 flex-wrap gap-2">
+          <ul class="flex lg:w-1/2 flex-wrap gap-2">
             {#each blog.tags as tag, index}
               <li
                 class="bg-dark text-center text-light px-4 py-1 rounded-full text-sm shadow mr-2"

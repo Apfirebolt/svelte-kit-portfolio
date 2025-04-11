@@ -92,10 +92,10 @@
   <Loader />
 {:else}
   <section
-    class="bg-gradient-to-b from-blue-500 via-purple-600 to-pink-500 py-4 px-2"
+    class="bg-gradient-to-b from-tertiary via-secondary to-dark py-4 px-2"
   >
     <div
-      class="w-3/4 text-center mx-auto text-black p-6 rounded-lg bg-opacity-50 bg-white"
+      class="md:w-3/4 text-center mx-auto text-black p-6 rounded-lg bg-opacity-50 bg-white"
     >
       <h1
         class="mb-6 text-5xl font-extrabold tracking-wide md:text-7xl"
@@ -109,7 +109,7 @@
           <span class="text-primary-dark font-semibold">Posted on:</span>
           {new Date(project.date_posted).toLocaleDateString()}
         </p>
-        <div class="w-1/2 flex-wrap text-right">
+        <div class="lg:w-1/2 flex-wrap text-right">
           {#each project.technology.split(",") as tech}
             <span class="bg-dark text-light px-3 py-1 rounded-full mr-2">
               {tech.trim()}

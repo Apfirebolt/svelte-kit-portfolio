@@ -29,6 +29,10 @@
   // Start the typewriter effect when the component is mounted
   typeWriter();
 
+  const getFullUrl = (image: any) => {
+      return `https://softgenie.org${image.image}`; // Replace with your base URL
+  };
+
   const goToDetails = (projectId: number) => {
     // Navigate to the project details page
     goto(`/projects/${projectId}`);
@@ -93,8 +97,32 @@
   {#each projectList as project}
     <div class="bg-white container mx-auto my-3 p-4 rounded-lg shadow-md">
       <h3 class="text-2xl font-semibold mb-4">{project.title}</h3>
+
+      <div class="flex my-3 border-2 border-dark rounded-lg py-3 px-4">
+        <p class="lg:w-1/2 text-left">
+          <span class="text-primary-dark font-semibold">Posted on:</span>
+          {new Date(project.date_posted).toLocaleDateString()}
+        </p>
+        <div class="lg:w-1/2 flex-wrap flex gap-2">
+          {#each project.technology.split(",") as tech}
+            <span class="bg-primary text-light px-3 py-2 rounded-md">
+              {tech.trim()}
+            </span>
+          {/each}
+        </div>
+      </div>
+
       <div class="content">
         {@html project.description}
+      </div>
+      <div class="gallery-images grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        {#each project.images as image}
+          <img
+            src={getFullUrl(image)}
+            alt={image.alt || "Project Image"}
+            class="w-full h-auto rounded-lg shadow-md"
+          />
+        {/each}
       </div>
       <button
         class="mt-4 px-4 py-2 bg-secondary text-white rounded hover:bg-blue-900"
