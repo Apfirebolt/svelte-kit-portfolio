@@ -67,7 +67,7 @@
 
 <section
   class="relative bg-cover bg-center h-[500px]"
-  style="background-image: url('https://plus.unsplash.com/premium_photo-1710409625244-e9ed7e98f67b?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');"
+  style="background-image: url('https://img.freepik.com/free-vector/laptop-with-program-code-isometric-icon-software-development-programming-applications-dark-neon_39422-971.jpg?semt=ais_hybrid&w=740');"
 >
   <div
     class="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black bg-opacity-50 flex items-center justify-center"
@@ -105,7 +105,7 @@
         </p>
         <div class="lg:w-1/2 flex-wrap flex gap-2">
           {#each project.technology.split(",") as tech}
-            <span class="bg-primary text-light px-3 py-2 rounded-md">
+            <span class="bg-primary text-light px-3 py-1 rounded-md">
               {tech.trim()}
             </span>
           {/each}

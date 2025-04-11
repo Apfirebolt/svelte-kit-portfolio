@@ -49,31 +49,31 @@
   </div>
 </section>
 
-<section class="py-12 bg-gray-100">
+<section class="py-12 bg-gradient-to-b from-tertiary via-secondary to-dark">
   <div class="container mx-auto px-6">
     <h2
       class="text-3xl font-bold text-center mb-8"
       in:fly={{ y: 50, duration: 500 }}
     >
-      Explore Our Features
+      Explore My Personal Portfolio
     </h2>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
       <div
-        class="text-center p-6 bg-white shadow-lg rounded-lg"
+        class="text-center p-6 bg-light shadow-lg rounded-lg"
         in:fly={{ y: 50, duration: 500 }}
       >
         <h3 class="text-xl font-semibold mb-4">Browse Projects</h3>
         <p>Some projects I worked on.</p>
       </div>
       <div
-        class="text-center p-6 bg-white shadow-lg rounded-lg"
+        class="text-center p-6 bg-light shadow-lg rounded-lg"
         in:fly={{ y: 50, duration: 500, delay: 200 }}
       >
         <h3 class="text-xl font-semibold mb-4">Browser Gallery</h3>
         <p>Some pictures from my life.</p>
       </div>
       <div
-        class="text-center p-6 bg-white shadow-lg rounded-lg"
+        class="text-center p-6 bg-light shadow-lg rounded-lg"
         in:fly={{ y: 50, duration: 500, delay: 400 }}
       >
         <h3 class="text-xl font-semibold mb-4">My Blog</h3>

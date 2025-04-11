@@ -15,11 +15,13 @@
   }
 </script>
 
-<header class="bg-primary text-light">
+<header class="bg-light text-primary">
   <div class="container mx-auto flex items-center justify-between px-6 py-4">
-    <h1 class="text-3xl font-bold">{title}</h1>
+    <a href="/">
+      <img src="/logo.png" alt="Logo" class="h-10 w-auto" />
+    </a>
     <button
-      class="lg:hidden text-white focus:outline-none"
+      class="lg:hidden focus:outline-none"
       on:click={toggleMenu}
       aria-label="Toggle menu"
     >
@@ -32,7 +34,7 @@
 			<a
 			  href={item.url}
 			  data-sveltekit-prefetch
-			  class="text-white px-4 py-3 rounded transition-all duration-300 ease-in-out group-hover:rounded-lg group-hover:border group-hover:shadow-2xl"
+			  class="px-4 py-3 rounded transition-all duration-300 ease-in-out group-hover:rounded-lg group-hover:border group-hover:shadow-2xl"
 			>
 			  {item.name}
 			</a>
@@ -50,17 +52,17 @@
   >
     <div class="flex justify-end p-4">
       <button
-        class="text-white focus:outline-none"
+        class="focus:outline-none"
         on:click={toggleMenu}
         aria-label="Close menu"
       >
-        <Icon icon="mdi:close" class="text-3xl" />
+        <Icon icon="mdi:close" class="text-3xl text-light" />
       </button>
     </div>
     <ul class="space-y-4 px-6">
       {#each menuItems as item}
         <li
-          class="bg-bermuda text-white px-2 py-3 text-center shadow-xl rounded hover:bg-tertiary hover:text-secondary transition-colors duration-300"
+          class="text-light bg-dark px-2 py-3 text-center shadow-xl rounded hover:bg-tertiary hover:text-secondary transition-colors duration-300"
         >
           <a href={item.url} data-sveltekit-prefetch on:click={toggleMenu}>
             {item.name}

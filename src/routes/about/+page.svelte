@@ -31,7 +31,7 @@
   >
     <!-- Text Wrapper -->
     <div
-      class="flex p-12 md:px-16 bg-white container mx-auto rounded-lg shadow-lg"
+      class="flex p-12 md:px-16 bg-light container mx-auto rounded-lg shadow-lg"
       in:fly={{ x: -200, duration: 500 }}
     >
       <div class="w-1/2">
@@ -62,7 +62,7 @@
 
 <div class="container mx-auto">
   <div
-    class="card my-4 py-4 px-6 border bg-white rounded shadow"
+    class="card my-4 py-4 px-6 border bg-light rounded shadow"
     data-aos="fade-up"
   >
     <h2 class="text-2xl font-bold my-3">"I pursue a career in..."</h2>
@@ -80,7 +80,7 @@
   </div>
 
   <div
-    class="card my-4 py-4 px-6 border bg-white rounded shadow"
+    class="card my-4 py-4 px-6 border bg-light rounded shadow"
     data-aos="zoom-in"
   >
     <h2 class="text-2xl font-bold my-3">"Travel is the air I breathe"</h2>
@@ -103,7 +103,7 @@
   </div>
 
   <div
-    class="card my-4 py-4 px-6 border bg-white rounded shadow"
+    class="card my-4 py-4 px-6 border bg-light rounded shadow"
     data-aos="fade-up-right"
   >
     <h2 class="text-2xl font-bold my-3">
@@ -135,7 +135,7 @@
   </div>
 
   <div
-    class="card my-4 py-4 px-6 border bg-white rounded shadow"
+    class="card my-4 py-4 px-6 border bg-light rounded shadow"
     data-aos="fade-up-left"
   >
     <h2 class="text-2xl font-bold my-3">"Music is the essence of my spirit"</h2>
@@ -162,7 +162,7 @@
   </div>
 
   <div
-    class="card my-4 py-4 px-6 border bg-white rounded shadow"
+    class="card my-4 py-4 px-6 border bg-light rounded shadow"
     data-aos="flip-up"
   >
     <h2 class="text-2xl font-bold my-3">
@@ -194,7 +194,7 @@
   </div>
 
   <div
-    class="card my-4 py-4 px-6 border bg-white rounded shadow"
+    class="card my-4 py-4 px-6 border bg-light rounded shadow"
     data-aos="flip-down"
   >
     <h2 class="text-2xl font-bold my-3">"I ❤️ Cooking"</h2>
@@ -219,7 +219,7 @@
   </div>
 
   <div
-    class="card my-4 py-4 px-6 border bg-white rounded shadow"
+    class="card my-4 py-4 px-6 border bg-light rounded shadow"
     data-aos="zoom-in-right"
   >
     <h2 class="text-2xl font-bold my-3">"Games and Sports I am into"</h2>
@@ -245,7 +245,7 @@
   </div>
 
   <div
-    class="card my-4 py-4 px-6 border bg-white rounded shadow"
+    class="card my-4 py-4 px-6 border bg-light rounded shadow"
     data-aos="zoom-in-left"
   >
     <h2 class="text-2xl font-bold my-3">
