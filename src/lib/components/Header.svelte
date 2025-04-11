@@ -1,5 +1,6 @@
 <script lang="ts">
   import Icon from "@iconify/svelte";
+  import logoSrc from '$lib/assets/logo.png';
   let menuItems = [
     { name: "Home", url: "/" },
     { name: "About", url: "/about" },
@@ -18,7 +19,7 @@
 <header class="bg-light text-primary">
   <div class="container mx-auto flex items-center justify-between px-6 py-4">
     <a href="/">
-      <img src="/logo.png" alt="Logo" class="h-10 w-auto" />
+      <img src={logoSrc} alt="Logo" class="h-10 w-auto" />
     </a>
     <button
       class="lg:hidden focus:outline-none"
