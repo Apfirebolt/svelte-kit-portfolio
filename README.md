@@ -14,8 +14,11 @@ Svelte Kit Portfolio is a personal portfolio website built with SvelteKit, Tailw
 
 Please find some of the screenshots of the portfolio below.
 
-![Screenshot 1](./screenshots/1.png)
-![Screenshot 2](./screenshots/2.png)
+![Screenshot 1](./screenshots/2.png)
+![Screenshot 2](./screenshots/3.png)
+![Screenshot 2](./screenshots/4.png)
+![Screenshot 2](./screenshots/5.png)
+![Screenshot 2](./screenshots/6.png)
 
 ## SSR - When to render on client and when on server?
 
