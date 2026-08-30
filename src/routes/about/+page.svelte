@@ -1,46 +1,66 @@
-<script>
+<script lang="ts">
+  import { onMount, onDestroy } from "svelte";
   import { fly } from "svelte/transition";
   import HeaderComponent from "$lib/components/Header.svelte";
   import FooterComponent from "$lib/components/Footer.svelte";
 
-  let text = "ABOUT ME";
+  const bannerHeadline = "ABOUT ME";
   let displayedText = "";
-  let index = 0;
+  let typeTimer: ReturnType<typeof setTimeout> | null = null;
 
-  // Typewriter effect logic
-  const typeWriter = () => {
-    if (index < text.length) {
-      displayedText += text[index];
-      index++;
-      setTimeout(typeWriter, 100); // Adjust speed here
-    }
+  const runTypewriter = () => {
+    let index = 0;
+    const tick = () => {
+      if (index < bannerHeadline.length) {
+        displayedText = bannerHeadline.slice(0, index + 1);
+        index++;
+        typeTimer = setTimeout(tick, 90);
+      }
+    };
+    tick();
   };
 
-  // Start the typewriter effect when the component is mounted
-  typeWriter();
+  onMount(() => {
+    runTypewriter();
+  });
+
+  onDestroy(() => {
+    if (typeTimer) {
+      clearTimeout(typeTimer);
+    }
+  });
 </script>
+
+<svelte:head>
+  <title>About Me - Amit Prafulla</title>
+  <meta
+    name="description"
+    content="Learn more about Amit Prafulla, software engineering career, travel experiences, and personal interests."
+  />
+</svelte:head>
 
 <HeaderComponent title="About Me" />
 
+<!-- Hero Banner -->
 <section
-  class="relative bg-cover bg-center h-[500px]"
+  class="relative bg-cover bg-center min-h-[520px] py-12 px-4 sm:px-6 lg:px-8 flex items-center justify-center overflow-hidden"
   style="background-image: url('https://plus.unsplash.com/premium_photo-1710409625244-e9ed7e98f67b?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');"
 >
-  <div
-    class="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black bg-opacity-50 flex items-center justify-center"
-  >
-    <!-- Text Wrapper -->
+  <div class="absolute inset-0 bg-gradient-to-b from-black via-black/60 to-black pointer-events-none" />
+
+  <div class="relative z-10 max-w-6xl w-full mx-auto">
     <div
-      class="flex p-12 md:px-16 bg-light container mx-auto rounded-lg shadow-lg"
-      in:fly={{ x: -200, duration: 500 }}
+      class="flex flex-col lg:flex-row items-center gap-8 p-6 sm:p-10 lg:p-12 bg-light rounded-2xl shadow-2xl border border-gray-200"
+      in:fly={{ y: 20, duration: 450 }}
     >
-      <div class="w-1/2">
-        <h2
-          class="text-2xl font-medium uppercase text-secondary-dark lg:text-4xl"
+      <!-- Bio Summary -->
+      <div class="w-full lg:w-3/5 space-y-4">
+        <h1
+          class="text-3xl sm:text-4xl lg:text-5xl font-black uppercase tracking-tight text-secondary-dark min-h-[2.5rem] sm:min-h-[3.25rem]"
         >
           {displayedText}
-        </h2>
-        <p class="mt-4">
+        </h1>
+        <p class="text-sm sm:text-base leading-relaxed text-gray-800">
           Hey there, thanks for visiting this website! My name is Amit Prafulla
           and I am a passionate software developer and an enthusiastic
           individual who thrives on new experiences. I belong to this city
@@ -49,24 +69,33 @@
           Technology with specialization in Cyber Security.
         </p>
       </div>
-      <div class="relative w-1/2">
-        <img
-        class="h-84 w-128 object-cover rounded-md shadow-lg"
-        src="https://softgenie.org/media/images/generic/my_pic1.jpeg"
-        alt="Winding mountain road"
-      />
+
+      <!-- Profile Visual -->
+      <div class="w-full lg:w-2/5 flex justify-center">
+        <div class="relative w-full max-w-sm aspect-square sm:aspect-4/3 lg:aspect-square overflow-hidden rounded-xl shadow-lg border border-gray-300">
+          <img
+            class="w-full h-full object-cover object-center"
+            src="https://softgenie.org/media/images/generic/my_pic1.jpeg"
+            alt="Amit Prafulla"
+            loading="eager"
+          />
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<div class="container mx-auto">
-  <div
-    class="card my-4 py-4 px-6 border bg-light rounded shadow"
+<!-- Content Sections Container -->
+<main class="max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-6">
+  <!-- Career -->
+  <article
+    class="card p-6 sm:p-8 border bg-light rounded-2xl shadow-sm transition-shadow hover:shadow-md"
     data-aos="fade-up"
   >
-    <h2 class="text-2xl font-bold my-3">"I pursue a career in..."</h2>
-    <p class="mt-5">
+    <h2 class="text-xl sm:text-2xl font-bold text-gray-900 border-b border-gray-200 pb-3">
+      "I pursue a career in..."
+    </h2>
+    <p class="mt-4 text-sm sm:text-base leading-relaxed text-gray-800">
       I have been working in the software industry for over 6 years now and have
       experience in various technologies such as Python, Django, FastAPI, React,
       Angular, Vue, Node.js, Express.js, MongoDB, PostgreSQL, MySQL, Docker,
@@ -77,14 +106,17 @@
       spare time I like to work on personal projects, do video editing, travel
       and play video games.
     </p>
-  </div>
+  </article>
 
-  <div
-    class="card my-4 py-4 px-6 border bg-light rounded shadow"
+  <!-- Travel -->
+  <article
+    class="card p-6 sm:p-8 border bg-light rounded-2xl shadow-sm transition-shadow hover:shadow-md"
     data-aos="zoom-in"
   >
-    <h2 class="text-2xl font-bold my-3">"Travel is the air I breathe"</h2>
-    <p>
+    <h2 class="text-xl sm:text-2xl font-bold text-gray-900 border-b border-gray-200 pb-3">
+      "Travel is the air I breathe"
+    </h2>
+    <p class="mt-4 text-sm sm:text-base leading-relaxed text-gray-800">
       I simply love to travel and explore new places. I have been to various
       places in India and have also traveled to Europe. I'd often take a break
       from my work and go on a trip to some new place. I believe that traveling
@@ -92,24 +124,25 @@
       experience new things. I have a bucket list of places that I want to visit
       and I am slowly ticking them off one at a time. I aim to visit all the
       UNESCO World Heritage Sites in India and explore the beauty of nature and
-      ancient architecture. I've been to 24/42 such destinations as of now.
+      ancient architecture. I've been to 28/45 such destinations as of now.
     </p>
-    <p class="mt-5">
+    <p class="mt-4 text-sm sm:text-base leading-relaxed text-gray-800">
       I'd often go on solo trips and explore new places on my own. I believe
       that solo travel is the best way to learn about oneself and grow as an
       individual. At the time of writing this, I've already been to 20+ solo
       trips in my life covering 60+ cities in India.
     </p>
-  </div>
+  </article>
 
-  <div
-    class="card my-4 py-4 px-6 border bg-light rounded shadow"
+  <!-- Gaming -->
+  <article
+    class="card p-6 sm:p-8 border bg-light rounded-2xl shadow-sm transition-shadow hover:shadow-md"
     data-aos="fade-up-right"
   >
-    <h2 class="text-2xl font-bold my-3">
+    <h2 class="text-xl sm:text-2xl font-bold text-gray-900 border-b border-gray-200 pb-3">
       "I have multiple lives – in every game I play."
     </h2>
-    <p>
+    <p class="mt-4 text-sm sm:text-base leading-relaxed text-gray-800">
       I love playing video games and it is one of my favorite pastimes. I have
       been playing video games since I was a kid and have played various games
       on different platforms. I enjoy playing games on PC, PS4/PS5, and Mobile.
@@ -118,7 +151,7 @@
       Duty, FIFA, Need for Speed, GTA, Age of Empires, DOTA, Counter Strike,
       Spider Man, Last of Us, Horizon Zero Dawn and many more.
     </p>
-    <p class="mt-5">
+    <p class="mt-4 text-sm sm:text-base leading-relaxed text-gray-800">
       I believe gaming provides an escape from reality and lets you live
       multiple virtual lives. It is a great way to relax and unwind after a long
       day of work. I often play games with my friends and family and enjoy the
@@ -132,14 +165,17 @@
       Uncharted, Red Dead Redemption 2, Spider-Man, Batman and more have left a
       lasting impact on me.
     </p>
-  </div>
+  </article>
 
-  <div
-    class="card my-4 py-4 px-6 border bg-light rounded shadow"
+  <!-- Music -->
+  <article
+    class="card p-6 sm:p-8 border bg-light rounded-2xl shadow-sm transition-shadow hover:shadow-md"
     data-aos="fade-up-left"
   >
-    <h2 class="text-2xl font-bold my-3">"Music is the essence of my spirit"</h2>
-    <p>
+    <h2 class="text-xl sm:text-2xl font-bold text-gray-900 border-b border-gray-200 pb-3">
+      "Music is the essence of my spirit"
+    </h2>
+    <p class="mt-4 text-sm sm:text-base leading-relaxed text-gray-800">
       I love listening to music and it is an integral part of my life. I would
       often listen to instrumental music while I'm working or traveling. I
       believe that music has the power to heal and soothe the soul. I have a
@@ -153,22 +189,23 @@
       and create covers of them. My favorite singers are Arijit Singh, Mohit
       Chauhan, Sonu Nigam, and Shreya Ghoshal.
     </p>
-    <p class="mt-5">
+    <p class="mt-4 text-sm sm:text-base leading-relaxed text-gray-800">
       I also enjoy Western Music and have a special liking for bands like
       Backstreet Boys, One Direction, Linkin Park, The Chainsmokers 3 Days Grace
       and Breaking Benjamin. My favorite singers are Ed Sheeran, Taylor Swift,
       Ellie Goulding, Katy Perry, Enrique Iglesias, Shakira and more.
     </p>
-  </div>
+  </article>
 
-  <div
-    class="card my-4 py-4 px-6 border bg-light rounded shadow"
+  <!-- Photography & Video Editing -->
+  <article
+    class="card p-6 sm:p-8 border bg-light rounded-2xl shadow-sm transition-shadow hover:shadow-md"
     data-aos="flip-up"
   >
-    <h2 class="text-2xl font-bold my-3">
+    <h2 class="text-xl sm:text-2xl font-bold text-gray-900 border-b border-gray-200 pb-3">
       "My penchant for Photography and Video editing"
     </h2>
-    <p>
+    <p class="mt-4 text-sm sm:text-base leading-relaxed text-gray-800">
       I think most people who travel have a natural inclination towards
       photography. I am no different. I love capturing moments and creating
       memories through photographs. I have a keen interest in photography and
@@ -179,7 +216,7 @@
       enjoy editing photos and creating collages and albums to preserve my
       memories.
     </p>
-    <p class="mt-5">
+    <p class="mt-4 text-sm sm:text-base leading-relaxed text-gray-800">
       I am also into video editing and have created various videos for my
       personal projects and travel diaries. I enjoy the process of editing
       videos and adding effects and music to create a visually appealing story.
@@ -191,20 +228,23 @@
       Premiere Pro, After Effects, Wondershare Filmora and Movavi Creative Suite
       for video editing.
     </p>
-  </div>
+  </article>
 
-  <div
-    class="card my-4 py-4 px-6 border bg-light rounded shadow"
+  <!-- Cooking -->
+  <article
+    class="card p-6 sm:p-8 border bg-light rounded-2xl shadow-sm transition-shadow hover:shadow-md"
     data-aos="flip-down"
   >
-    <h2 class="text-2xl font-bold my-3">"I ❤️ Cooking"</h2>
-    <p>
+    <h2 class="text-xl sm:text-2xl font-bold text-gray-900 border-b border-gray-200 pb-3">
+      "I ❤️ Cooking"
+    </h2>
+    <p class="mt-4 text-sm sm:text-base leading-relaxed text-gray-800">
       Cooking is one of my favorite hobbies and I enjoy experimenting with
       different cuisines and recipes. I believe that cooking is a form of art
       that allows you to express yourself and create something delicious from
       scratch.
     </p>
-    <p class="mt-5">
+    <p class="mt-4 text-sm sm:text-base leading-relaxed text-gray-800">
       I like to cook mostly Indian dishes. But, I do occasionally try my hand at
       other cuisines like Chinese and Italian. I enjoy cooking for my friends
       and family and love to see the smiles on their faces when they taste my
@@ -216,14 +256,17 @@
       relax and unwind after a long day and it is a skill that everyone should
       learn. I'd often close or open my day with a cooking session.
     </p>
-  </div>
+  </article>
 
-  <div
-    class="card my-4 py-4 px-6 border bg-light rounded shadow"
+  <!-- Sports -->
+  <article
+    class="card p-6 sm:p-8 border bg-light rounded-2xl shadow-sm transition-shadow hover:shadow-md"
     data-aos="zoom-in-right"
   >
-    <h2 class="text-2xl font-bold my-3">"Games and Sports I am into"</h2>
-    <p>
+    <h2 class="text-xl sm:text-2xl font-bold text-gray-900 border-b border-gray-200 pb-3">
+      "Games and Sports I am into"
+    </h2>
+    <p class="mt-4 text-sm sm:text-base leading-relaxed text-gray-800">
       I'm pretty much average in sports but I do enjoy playing them. I have
       played Cricket, Badminton, Table Tennis, and Football. I enjoy watching
       Tennis and Football matches on TV and had been following the matches
@@ -235,23 +278,24 @@
       I've stopped following sports lately but do enjoy watching Crickt matches
       occasionally with my friends and family.
     </p>
-    <p class="mt-5">
+    <p class="mt-4 text-sm sm:text-base leading-relaxed text-gray-800">
       I have also played games like Chess, Carrom, Ludo, Snakes and Ladders,
       Monopoly, and Uno. I enjoy playing board games with my friends and family
       and it is a great way to spend quality time together. I have a competitive
       spirit and enjoy the thrill of winning a game. I believe that games teach
       you important life skills such as strategy, teamwork, and sportsmanship.
     </p>
-  </div>
+  </article>
 
-  <div
-    class="card my-4 py-4 px-6 border bg-light rounded shadow"
+  <!-- Movies & Shows -->
+  <article
+    class="card p-6 sm:p-8 border bg-light rounded-2xl shadow-sm transition-shadow hover:shadow-md"
     data-aos="zoom-in-left"
   >
-    <h2 class="text-2xl font-bold my-3">
+    <h2 class="text-xl sm:text-2xl font-bold text-gray-900 border-b border-gray-200 pb-3">
       "My screen time is reserved for real life."
     </h2>
-    <p class="text-gray-500">
+    <p class="mt-4 text-sm sm:text-base leading-relaxed text-gray-800">
       Everyone around me seems to love watching movies and TV shows. I am not a
       big fan of them. I'd often watch movies with my friends and family but I
       don't have a habit of watching them alone. I'd often watch movies in
@@ -261,13 +305,13 @@
       The Dark Knight, Harry Potter Series, Inception, Good Will Hunting, The
       Shawshank Redemption, original Spider-Man .
     </p>
-    <p class="mt-5">
+    <p class="mt-4 text-sm sm:text-base leading-relaxed text-gray-800">
       In bollywood I'd often watch movies which have a good storyline and
       acting. I'd really think a lot before watching a movie because I believe
       that time is precious and I don't want to waste it on something that
       doesn't add value to my life.
     </p>
-  </div>
-</div>
+  </article>
+</main>
 
 <FooterComponent />
