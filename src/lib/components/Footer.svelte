@@ -24,15 +24,8 @@
       
       <!-- Brand & Headline -->
       <div class="text-center md:text-left space-y-1">
-        <a
-          href="/"
-          class="text-lg font-black tracking-tight text-light inline-flex items-center gap-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-light rounded-lg"
-        >
-          <span>APGIIIT</span>
-          <span class="text-tertiary">.io</span>
-        </a>
         <p class="text-xs text-light/70 font-mono">
-          Full-Stack & Distributed Systems Portfolio
+          Full-Stack Portfolio
         </p>
       </div>
 

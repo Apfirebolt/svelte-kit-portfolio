@@ -54,9 +54,6 @@
       aria-label="{title} Home"
     >
       <img src={logoSrc} alt="{title} Logo" class="h-9 w-auto object-contain" />
-      <span class="text-lg font-black tracking-tight text-primary hidden sm:inline-block">
-        APGIIIT<span class="text-tertiary">.io</span>
-      </span>
     </a>
 
     <!-- Desktop Navigation Links -->
