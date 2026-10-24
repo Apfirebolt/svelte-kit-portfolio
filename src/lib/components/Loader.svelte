@@ -50,7 +50,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: radial-gradient(circle at 50% 40%, rgba(30, 41, 59, 0.7) 0%, rgba(15, 23, 42, 0.92) 100%);
+    background: radial-gradient(circle at 50% 40%, var(--color-surface) 0%, var(--color-bg) 100%);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     overflow: hidden;
@@ -61,7 +61,8 @@
     width: 240px;
     height: 240px;
     border-radius: 50%;
-    background: radial-gradient(circle, rgba(99, 102, 241, 0.25) 0%, rgba(139, 92, 246, 0) 70%);
+    background: radial-gradient(circle, var(--color-primary) 0%, transparent 70%);
+    opacity: 0.25;
     filter: blur(40px);
     pointer-events: none;
     animation: pulse-glow 3s ease-in-out infinite alternate;
@@ -74,10 +75,11 @@
     align-items: center;
     gap: 1.25rem;
     padding: 2rem 2.5rem;
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background-color: color-mix(in srgb, var(--color-surface) 60%, transparent);
+    border: 1px solid color-mix(in srgb, var(--color-primary) 20%, transparent);
     border-radius: 1.5rem;
-    box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.4), inset 0 1px 0 color-mix(in srgb, var(--color-text) 10%, transparent);
+    backdrop-filter: blur(8px);
   }
 
   /* Spinner Assembly */
@@ -94,7 +96,7 @@
     position: absolute;
     inset: 0;
     border-radius: 50%;
-    border: 3px solid rgba(255, 255, 255, 0.08);
+    border: 3px solid color-mix(in srgb, var(--color-text) 10%, transparent);
   }
 
   .spinner-core {
@@ -102,8 +104,8 @@
     inset: 0;
     border-radius: 50%;
     border: 3px solid transparent;
-    border-top-color: #6366f1;
-    border-right-color: #8b5cf6;
+    border-top-color: var(--color-primary);
+    border-right-color: var(--color-secondary);
     animation: spin 0.9s cubic-bezier(0.55, 0.15, 0.45, 0.85) infinite;
   }
 
@@ -111,8 +113,8 @@
     width: 14px;
     height: 14px;
     border-radius: 50%;
-    background: #6366f1;
-    box-shadow: 0 0 12px rgba(99, 102, 241, 0.8);
+    background: var(--color-primary);
+    box-shadow: 0 0 12px var(--color-primary);
     animation: core-pulse 1.4s ease-in-out infinite alternate;
   }
 
@@ -136,13 +138,13 @@
     font-weight: 600;
     letter-spacing: 0.05em;
     text-transform: uppercase;
-    color: #f8fafc;
+    color: var(--color-text);
     font-family: inherit;
   }
 
   .status-subtext {
     font-size: 0.75rem;
-    color: #94a3b8;
+    color: var(--color-muted);
     margin: 0;
     font-family: monospace;
   }
@@ -158,7 +160,7 @@
     width: 3px;
     height: 3px;
     border-radius: 50%;
-    background-color: #6366f1;
+    background-color: var(--color-primary);
     animation: dot-wave 1.4s infinite ease-in-out both;
   }
 
