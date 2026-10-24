@@ -1,32 +1,116 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Raleway:wght@400;700&family=Source+Sans+Pro:wght@400;600&display=swap');
+/* --- 8 Google Fonts Imported --- */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=JetBrains+Mono:wght@400;700&family=Lora:ital,wght@0,400;0,700;1,400&family=Outfit:wght@400;600;800&family=Playfair+Display:ital,wght@0,600;0,800;1,400&family=Plus+Jakarta+Sans:wght@400;600;700&family=Space+Grotesk:wght@500;700&family=Syne:wght@500;700;800&display=swap');
 
 @import 'tailwindcss';
 @plugin '@tailwindcss/forms';
 @plugin '@tailwindcss/typography';
 
+/* --- THEME 1: Midnight (Dark Tech Vibe - Space Grotesk & Inter) --- */
+:root, .theme-midnight {
+  --bg-color: #0B0F19;
+  --surface-color: #111827;
+  --text-color: #F3F4F6;
+  --text-muted: #9CA3AF;
+  --primary: #3B82F6;
+  --secondary: #8B5CF6;
+  --tertiary: #1F2937;
+  --accent: #EC4899;
+  
+  --font-heading: 'Space Grotesk', sans-serif;
+  --font-body: 'Inter', sans-serif;
+}
+
+/* --- THEME 2: Sunset (Warm & Editorial - Playfair Display & Outfit) --- */
+.theme-sunset {
+  --bg-color: #FAF7F2;
+  --surface-color: #FFFFFF;
+  --text-color: #2B2B2B;
+  --text-muted: #6B7280;
+  --primary: #C85A32;
+  --secondary: #DDA15E;
+  --tertiary: #F0E6D2;
+  --accent: #BC6C25;
+  
+  --font-heading: 'Playfair Display', serif;
+  --font-body: 'Outfit', sans-serif;
+}
+
+/* --- THEME 3: Forest (Deep Nature & Organic - Lora & Plus Jakarta Sans) --- */
+.theme-forest {
+  --bg-color: #1A2E26;
+  --surface-color: #223B30;
+  --text-color: #E3ECE7;
+  --text-muted: #94B3A2;
+  --primary: #52B788;
+  --secondary: #74C69D;
+  --tertiary: #2D4A3E;
+  --accent: #F4D160;
+  
+  --font-heading: 'Lora', serif;
+  --font-body: 'Plus Jakarta Sans', sans-serif;
+}
+
+/* --- THEME 4: Aura (Vibrant Creative Synthwave - Syne & Inter) --- */
+.theme-aura {
+  --bg-color: #130E21;
+  --surface-color: #1C1531;
+  --text-color: #F7F5F8;
+  --text-muted: #A39BAF;
+  --primary: #A855F7;
+  --secondary: #EC4899;
+  --tertiary: #2A2045;
+  --accent: #06B6D4;
+  
+  --font-heading: 'Syne', sans-serif;
+  --font-body: 'Inter', sans-serif;
+}
+
+/* --- THEME 5: Marine (Oceanic & Code-Inspired - Plus Jakarta Sans & JetBrains Mono) --- */
+.theme-marine {
+  --bg-color: #0A192F;
+  --surface-color: #112240;
+  --text-color: #E6F1FF;
+  --text-muted: #8892B0;
+  --primary: #64FFDA;
+  --secondary: #57CBFF;
+  --tertiary: #1D3557;
+  --accent: #FFD166;
+  
+  --font-heading: 'Plus Jakarta Sans', sans-serif;
+  --font-body: 'JetBrains Mono', monospace;
+}
+
+/* --- Tailwind v4 Dynamic Theme Mapping --- */
 @theme {
-    --color-primary: #56021F;
-    --color-secondary: #015551;
-    --color-tertiary: #B4EBE6;
-    --color-light: #FFFDF0;
-    --color-dark: #4C585B;
-    --color-danger: #E82561;
-    --color-success: #f9f871;
-    --color-info: #f9f871;
-  }
+  --color-bg: var(--bg-color);
+  --color-surface: var(--surface-color);
+  --color-text: var(--text-color);
+  --color-muted: var(--text-muted);
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --color-tertiary: var(--tertiary);
+  --color-accent: var(--accent);
+  
+  --font-heading: var(--font-heading);
+  --font-body: var(--font-body);
+}
 
 body {
-    font-family: 'Poppins', sans-serif;
-    font-size: 1rem;
-    line-height: 1.6;
-    background-color: #f4f4f4;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.6;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  transition: background-color 0.3s ease, color 0.3s ease, font-family 0.3s ease;
 }
 
 nav {
-  font-family: 'Raleway', sans-serif;
+  font-family: var(--font-body);
 }
 
 h1, h2, h3, h4, h5, h6 {
-    font-family: 'Source Sans Pro', sans-serif;
-    font-weight: 700;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  color: var(--color-text);
+  transition: font-family 0.3s ease;
 }
